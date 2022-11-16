@@ -10,8 +10,8 @@ data-platform-api-plant-exconf-rmq-kube は、データ連携基盤において�
 
 * data-platform-plant-general-data.sql（データ連携基盤 プラント - 一般データ）
 
-## existence_check.go による存在性確認
-Input で取得されたファイルに基づいて、existence_check.go で、 API がコールされます。
+## caller.go による存在性確認
+Input で取得されたファイルに基づいて、caller.go で、 API がコールされます。
 caller.go の 以下の箇所が、指定された API をコールするソースコードです。
 
 ```
