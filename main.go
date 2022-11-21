@@ -6,9 +6,10 @@ import (
 	dpfm_api_input_reader "data-platform-api-plant-exconf-rmq-kube/DPFM_API_Input_Reader"
 	dpfm_api_output_formatter "data-platform-api-plant-exconf-rmq-kube/DPFM_API_Output_Formatter"
 	"data-platform-api-plant-exconf-rmq-kube/config"
-	"data-platform-api-plant-exconf-rmq-kube/database"
 	"encoding/json"
 	"fmt"
+
+	database "github.com/latonaio/golang-mysql-network-connector"
 
 	"github.com/latonaio/golang-logging-library-for-data-platform/logger"
 	rabbitmq "github.com/latonaio/rabbitmq-golang-client-for-data-platform"
@@ -23,6 +24,7 @@ func main() {
 		l.Error(err)
 		return
 	}
+	defer db.Close()
 
 	rmq, err := rabbitmq.NewRabbitmqClient(c.RMQ.URL(), c.RMQ.QueueFrom(), "", nil, -1)
 	if err != nil {

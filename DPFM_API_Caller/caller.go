@@ -4,8 +4,9 @@ import (
 	"context"
 	dpfm_api_input_reader "data-platform-api-plant-exconf-rmq-kube/DPFM_API_Input_Reader"
 	dpfm_api_output_formatter "data-platform-api-plant-exconf-rmq-kube/DPFM_API_Output_Formatter"
-	"data-platform-api-plant-exconf-rmq-kube/database"
 	"sync"
+
+	database "github.com/latonaio/golang-mysql-network-connector"
 
 	"github.com/latonaio/golang-logging-library-for-data-platform/logger"
 )
@@ -67,7 +68,7 @@ func (e *ExistenceConf) confPlantGeneral(businessPartner int, plant string) bool
 	rows, err := e.db.Query(
 		`SELECT Plant 
 		FROM DataPlatformMastersAndTransactionsMysqlKube.data_platform_plant_general_data 
-		WHERE (BusinessPartner, plant) = (?, ?);`, businessPartner, plant,
+		WHERE (BusinessPartner, Plant) = (?, ?);`, businessPartner, plant,
 	)
 	if err != nil {
 		e.l.Error(err)
