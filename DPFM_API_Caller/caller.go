@@ -66,7 +66,7 @@ func (e *ExistenceConf) Conf(input *dpfm_api_input_reader.SDC) *dpfm_api_output_
 
 func (e *ExistenceConf) confPlantGeneral(businessPartner int, plant string) bool {
 	rows, err := e.db.Query(
-		`SELECT Plant 
+		`SELECT BusinessPartner,Plant
 		FROM DataPlatformMastersAndTransactionsMysqlKube.data_platform_plant_general_data 
 		WHERE (BusinessPartner, Plant) = (?, ?);`, businessPartner, plant,
 	)
@@ -74,20 +74,16 @@ func (e *ExistenceConf) confPlantGeneral(businessPartner int, plant string) bool
 		e.l.Error(err)
 		return false
 	}
-	if err != nil {
-		e.l.Error(err)
-		return false
-	}
-
+	defer rows.Close()
 	for rows.Next() {
 		var businessPartner int
 		var plant string
-		err := rows.Scan(&plant)
+		err := rows.Scan(&businessPartner, &plant)
 		if err != nil {
 			e.l.Error(err)
 			continue
 		}
-		if businessPartner == businessPartner {
+		if businessPartner == businessPartner && plant == plant {
 			return true
 		}
 	}
