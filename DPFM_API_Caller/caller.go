@@ -70,14 +70,15 @@ func (e *ExistenceConf) confPlantGeneral(input *dpfm_api_input_reader.SDC) *dpfm
 	}
 
 	rows, err := e.db.Query(
-		`SELECT Plant 
+		`SELECT Plant, BusinessPartner
 		FROM DataPlatformMastersAndTransactionsMysqlKube.data_platform_plant_general_data 
-		WHERE Plant = ?;`, exconf.Plant,
+		WHERE (Plant, BusinessPartner) = (?, ?);`, exconf.Plant, exconf.BusinessPartner,
 	)
 	if err != nil {
 		e.l.Error(err)
 		return &exconf
 	}
+	defer rows.Close()
 
 	exconf.ExistenceConf = rows.Next()
 	return &exconf
